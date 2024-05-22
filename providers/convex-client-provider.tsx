@@ -1,8 +1,11 @@
 "use client";
 
 import { ClerkProvider, useAuth } from "@clerk/clerk-react";
-import { ConvexReactClient } from "convex/react";
+
+import { Authenticated, AuthLoading, ConvexReactClient } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
+
+import { Loading } from "@/components/auth/loading";
 
 interface ConvexClientProviderProps {
   children: React.ReactNode;
@@ -17,7 +20,10 @@ const ConvexClientProvider = ({ children }: ConvexClientProviderProps) => {
   return (
     <ClerkProvider publishableKey={clerkPublicKey}>
       <ConvexProviderWithClerk useAuth={useAuth} client={convex}>
-        {children}
+        <Authenticated>{children}</Authenticated>
+        <AuthLoading>
+          <Loading />
+        </AuthLoading>
       </ConvexProviderWithClerk>
     </ClerkProvider>
   );
