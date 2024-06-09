@@ -1,8 +1,13 @@
 "use client";
 
+import { useQuery } from "convex/react";
+
 import { EmptyBoards } from "./empty-boards";
 import { EmptyFavorites } from "./empty-favorites";
 import { EmptySearch } from "./empty-search";
+import { api } from "@/convex/_generated/api";
+import { BoardCard } from "./board-card";
+import { NewBoardButton } from "./board-card/new-board-button";
 
 interface BoardListProps {
   orgId: string;
@@ -13,7 +18,24 @@ interface BoardListProps {
 }
 
 export const BoardList = ({ orgId, query }: BoardListProps) => {
-  const data = []; //chang to API cal
+  const data = useQuery(api.boards.get, { orgId });
+
+  if (data === undefined) {
+    return (
+      <div>
+        <h2 className="text-2xl font-medium">
+          {query.favorites ? "Favorite boards" : "Team boards"}
+        </h2>
+        <div className="mt-8 grid grid-cols-1 gap-5 pb-10 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+          <NewBoardButton orgId={orgId} disabled={true} />
+          <BoardCard.Skeleton />
+          <BoardCard.Skeleton />
+          <BoardCard.Skeleton />
+          <BoardCard.Skeleton />
+        </div>
+      </div>
+    );
+  }
 
   if (!data?.length && query.search) {
     return <EmptySearch />;
@@ -28,8 +50,25 @@ export const BoardList = ({ orgId, query }: BoardListProps) => {
   }
   return (
     <div>
-      {orgId}
-      <p>{JSON.stringify(query)}</p>
+      <h2 className="text-2xl font-medium">
+        {query.favorites ? "Favorite boards" : "Team boards"}
+      </h2>
+      <div className="mt-8 grid grid-cols-1 gap-5 pb-10 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+        <NewBoardButton orgId={orgId} />
+        {data.map((board) => (
+          <BoardCard
+            key={board._id}
+            id={board._id}
+            title={board.title}
+            imageUrl={board.imageUrl}
+            authorId={board.authorId}
+            authorName={board.authorName}
+            createdAt={board._creationTime}
+            orgId={board.orgId}
+            isFavorite={false}
+          />
+        ))}
+      </div>
     </div>
   );
 };
