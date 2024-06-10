@@ -1,13 +1,19 @@
 "use client";
 
+import { useAuth } from "@clerk/nextjs";
+
 import Image from "next/image";
 import Link from "next/link";
+
 import { formatDistanceToNow } from "date-fns";
 
 import { Overlay } from "./overlay";
-import { useAuth } from "@clerk/nextjs";
 import { Footer } from "./footer";
+
 import { Skeleton } from "@/components/ui/skeleton";
+import { Actions } from "@/components/actions";
+
+import { MoreHorizontal } from "lucide-react";
 
 interface BoardCardProps {
   id: string;
@@ -49,6 +55,11 @@ export const BoardCard = ({
             sizes=""
           />
           <Overlay />
+          <Actions id={id} title={title} side="right">
+            <button className="absolute right-1 top-1 px-3 py-2 opacity-0 outline-none transition-opacity group-hover:opacity-100">
+              <MoreHorizontal className="text-white opacity-75 transition-opacity hover:opacity-100" />
+            </button>
+          </Actions>
         </div>
         <Footer
           title={title}
