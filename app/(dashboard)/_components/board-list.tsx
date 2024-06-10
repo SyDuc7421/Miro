@@ -8,6 +8,7 @@ import { EmptySearch } from "./empty-search";
 import { api } from "@/convex/_generated/api";
 import { BoardCard } from "./board-card";
 import { NewBoardButton } from "./board-card/new-board-button";
+import { Search } from "lucide-react";
 
 interface BoardListProps {
   orgId: string;
@@ -18,7 +19,7 @@ interface BoardListProps {
 }
 
 export const BoardList = ({ orgId, query }: BoardListProps) => {
-  const data = useQuery(api.boards.get, { orgId });
+  const data = useQuery(api.boards.get, { orgId, ...query });
 
   if (data === undefined) {
     return (
