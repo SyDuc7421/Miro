@@ -1,4 +1,6 @@
 import { Canvas } from "./_components/canvas";
+import { Loading } from "./_components/loading";
+import { Room } from "./_components/room";
 
 interface BoardIdPageProps {
   params: {
@@ -8,9 +10,11 @@ interface BoardIdPageProps {
 
 const BoardIdPage = ({ params }: BoardIdPageProps) => {
   return (
-    <div className="h-full w-full">
-      <Canvas boardId={params.boardId} />
-    </div>
+    <Room roomId={params.boardId} Loading={<Loading />}>
+      <div className="h-full w-full">
+        <Canvas boardId={params.boardId} />
+      </div>
+    </Room>
   );
 };
 
