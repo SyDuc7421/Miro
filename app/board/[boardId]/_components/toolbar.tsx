@@ -17,7 +17,7 @@ export const Toolbar = () => {
   );
 };
 
-Toolbar.Skeleton = function ToolbarSkeleton() {
+export const ToolbarSkeleton = () => {
   return (
     <Skeleton className="absolute left-2 top-[50%] h-[350px] w-[64px] -translate-y-[50%]" />
   );
