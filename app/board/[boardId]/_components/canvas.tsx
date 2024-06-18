@@ -234,7 +234,14 @@ export const Canvas = ({ boardId }: CanvasProps) => {
         cursor: current,
       });
     },
-    [camera, canvasState, resizeSelectedLayer, translateSelectedLayers],
+    [
+      camera,
+      canvasState,
+      resizeSelectedLayer,
+      translateSelectedLayers,
+      startMultiSelection,
+      updateSelectionNet,
+    ],
   );
 
   const onPointerLeave = useMutation(({ setMyPresence }) => {
@@ -264,7 +271,7 @@ export const Canvas = ({ boardId }: CanvasProps) => {
 
       history.resume();
     },
-    [canvasState, camera, history, insertLayer],
+    [canvasState, camera, history, insertLayer, setCanvasState],
   );
 
   const onPointerDown = useCallback(
